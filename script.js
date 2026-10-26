@@ -9,7 +9,7 @@
   const applyTheme = theme => {
     root.dataset.theme = theme;
     toggle?.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#101923' : '#f7f8f6');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#061321' : '#e8edf2');
   };
   applyTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark');
   toggle?.addEventListener('click', () => {

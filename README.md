@@ -17,9 +17,9 @@ GitHub Pages serves this repository from `main` at `https://atabak-nikouseresht.
 - Portfolio Theory is collaborative with Alessandro Bonfiglio and archival; its source data/code are unavailable and its repository documents errata.
 - Hermes Crypto Lab is simulated paper research only, with no profitability or live execution claim.
 - Supporting econometrics projects are collaborative archival reports, not independently reproducible analyses.
-- MSc status is current enrollment; no graduation date or unverified bachelor's credential is published.
+- The MSc is in progress; no graduation date or transcript is published. Bachelor's details are drawn from the supplied resume and are not independently credential-verified here.
 
-The site intentionally does not publish a CV download because no current, verified professional CV was located in the available files. It does not claim the LinkedIn profile was verified. The email contact was explicitly approved for public display by the site owner.
+The supplied one-page professional resume is published at `assets/Atabak_Nikouseresht_Professional_Resume.pdf` and linked from the hero. Its visible text is unchanged; incidental author metadata containing a secondary university email was removed. The owner-approved LinkedIn profile and email are linked from the page. Claims within the resume are not represented as independently credential-verified by the portfolio.
 
 ## Maintenance
 
