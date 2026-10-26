@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://atabak-nikouseresht.github.io/sitemap.xml
