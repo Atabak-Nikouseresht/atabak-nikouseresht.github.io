@@ -1,45 +1,30 @@
-# Personal portfolio — GitHub Pages starter
+# Atabak Nikouseresht — professional portfolio
 
-A zero-build, responsive portfolio website for Atabak Nikouseresht, built with vanilla HTML, CSS, and JavaScript. No frameworks, npm dependencies, API keys or paid hosting are needed.
-
-## Publish
-
-1. Create a **public** GitHub repository named `atabak-nikouseresht.github.io` (GitHub requires the username portion of a Pages user-site repository name to be lowercase).
-2. Upload the **contents** of this folder directly to the root of the repository on `main` — specifically `index.html`, `styles.css`, `script.js`, `favicon.svg`, `README.md`, and `.nojekyll`.
-3. In your repository, go to **Settings > Pages > Build and deployment**. Choose **Deploy from a branch**, branch `main`, folder `/(root)`, then **Save**.
-4. Open `https://atabak-nikouseresht.github.io/` after deployment. GitHub says initial publishing can take up to 10 minutes.
+A zero-build, responsive portfolio for an MSc student in Applied Economics and Markets at the University of Bologna, focused on financial risk and data analytics. Built with semantic HTML, CSS and vanilla JavaScript; no dependencies, backend, tracking scripts or external font requests.
 
 ## Local preview
 
-Open `index.html` directly in a browser, or start a local static web server:
+Open `index.html` directly, or run `python -m http.server 8000` and visit `http://localhost:8000`.
 
-```bash
-python -m http.server 8000
-```
+## Deployment
 
-Then visit http://localhost:8000 .
+GitHub Pages serves this repository from `main` at `https://atabak-nikouseresht.github.io/`. The root `.nojekyll` and Google Search Console verification artifact are preserved. `sitemap.xml` and `robots.txt` describe the public homepage.
 
-## Before sharing on LinkedIn or job applications
+## Content accuracy
 
-- Check every headline, affiliation, project result, and employment description for accuracy.
-- The IEEE-CIS card uses current corrected temporal evaluation results: ROC-AUC ~0.888 and average precision ~0.480. Do **not** replace with historical or Kaggle leaderboard metrics without explaining their different evaluation conditions.
-- Portfolio Theory was collaborative and is a report-only archival repository. Read its ERRATA.md before making any performance claims.
-- Hermes Crypto Lab is paper trading / simulated execution only. Do not describe it as a profitable or live execution product.
-- There is no personal email, phone, CV download, portrait or LinkedIn link in this starter: none was assumed or invented. Add verified contact links before broad distribution.
-- Google Fonts are requested online (DM Sans, DM Mono, Instrument Serif); system fallbacks work offline.
+- The IEEE-CIS project reflects its current temporal benchmark: XGBoost ROC-AUC 0.887546 and average precision 0.480197. The top-1% precision is an offline review-budget scenario, not a validated operations policy or a claim of loss savings. Feature timing, label maturity and unseen-customer generalization remain limitations.
+- The Streamlit project is a local demonstration. Its legacy artifact's empirical performance and training provenance are unverified.
+- Portfolio Theory is collaborative with Alessandro Bonfiglio and archival; its source data/code are unavailable and its repository documents errata.
+- Hermes Crypto Lab is simulated paper research only, with no profitability or live execution claim.
+- Supporting econometrics projects are collaborative archival reports, not independently reproducible analyses.
+- MSc status is current enrollment; no graduation date or unverified bachelor's credential is published.
 
-## Customize
+The site intentionally does not publish a CV download because no current, verified professional CV was located in the available files. It does not claim the LinkedIn profile was verified. The email contact was explicitly approved for public display by the site owner.
 
-- Site content: `index.html`
-- Colours, typography and spacing: `styles.css` (`:root` variables)
-- Dark/light theme and mobile navigation: `script.js`
-- Favicon: `favicon.svg`
-- Page title, descriptions, and open-graph metadata: `index.html` `<head>`
+## Maintenance
 
-## Deployment constraints
+- `index.html`: content, SEO metadata and verified Person schema.
+- `styles.css`: responsive layout, dark/light theme tokens, focus states and reduced-motion rules.
+- `script.js`: theme persistence and accessible mobile navigation.
 
-GitHub Pages serves static files; it is not an application server and doesn't run Python/PHP backends. Never put credentials, API keys, private documents, or client-sensitive data in this repository.
-
-## Ownership and collaboration
-
-README summaries of public repositories were checked against their GitHub contents on 2026-10-26. This project starter is separate from the existing repositories. No GitHub repo has been created or changed by preparation of this archive.
+No analytics, visitor identifiers, or external font assets are loaded.
