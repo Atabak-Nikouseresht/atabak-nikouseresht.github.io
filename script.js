@@ -1,19 +1,30 @@
 (() => {
   'use strict';
   const root = document.documentElement;
+  root.classList.remove('no-js');
+  root.classList.add('js');
   const toggle = document.getElementById('theme-toggle');
   const mobileToggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('site-nav');
   const year = document.getElementById('year');
   const savedTheme = (() => { try { return localStorage.getItem('atabak-theme'); } catch { return null; } })();
+  const hasSavedTheme = savedTheme === 'light' || savedTheme === 'dark';
+  let userThemeChosen = hasSavedTheme;
+  const systemScheme = window.matchMedia?.('(prefers-color-scheme: light)');
+  const systemTheme = () => systemScheme?.matches ? 'light' : 'dark';
   const applyTheme = theme => {
     root.dataset.theme = theme;
     toggle?.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#061321' : '#e8edf2');
+    const activeColor = theme === 'dark' ? '#061321' : '#e8edf2';
+    document.querySelectorAll('meta[name="theme-color"]').forEach(meta => { meta.media = meta.content === activeColor ? 'all' : 'not all'; });
   };
-  applyTheme(savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : 'dark');
+  applyTheme(hasSavedTheme ? savedTheme : systemTheme());
+  const followSystemTheme = event => { if (!userThemeChosen) applyTheme(event.matches ? 'light' : 'dark'); };
+  if (systemScheme?.addEventListener) systemScheme.addEventListener('change', followSystemTheme);
+  else systemScheme?.addListener?.(followSystemTheme);
   toggle?.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    userThemeChosen = true;
     applyTheme(next);
     try { localStorage.setItem('atabak-theme', next); } catch { /* Theme still works without storage. */ }
   });
