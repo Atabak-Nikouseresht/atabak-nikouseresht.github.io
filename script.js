@@ -27,7 +27,19 @@
     mobileToggle.setAttribute('aria-expanded', String(open));
     mobileToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   });
-  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    closeMenu();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+  }));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav?.classList.contains('is-open')) {
+      closeMenu();
+      mobileToggle?.focus();
+    }
+  });
   if (year) year.textContent = String(new Date().getFullYear());
 })();
