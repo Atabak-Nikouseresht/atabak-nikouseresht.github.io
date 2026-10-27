@@ -18,16 +18,21 @@ GitHub Pages serves this repository from `main` at `https://atabak-nikouseresht.
 - Hermes Crypto Lab demonstrates market-data processing, backtesting, research controls and versioned simulated execution. It is in frozen forward paper validation; its records do not represent live orders.
 - Supporting econometrics projects are collaborative archival studies using ARDL/VAR and OLS/logit methods. Their reports and errata are public, while complete reproduction data/code are not included.
 - The MSc is in progress; no graduation date or transcript is published.
+- The Ongoing Research section states only a high-level thesis focus in banking digitalization and risk, based on public-source evidence. The research design remains in progress; no findings or causal claims are presented.
 
 A one-page professional resume is linked from the hero and Contact section. The site also links to the professional LinkedIn profile and public contact email.
 
 ## Maintenance
 
-- `index.html`: content, canonical/SEO metadata, Open Graph/Twitter card metadata and Person schema.
-- `styles.css`: responsive layout, dark/light theme tokens, focus states and reduced-motion rules.
-- `script.js`: system-aware theme persistence and accessible mobile navigation; unenhanced pages keep section navigation visible when JavaScript is disabled.
-- `assets/social-preview.png`: 1200×630 navy social preview image.
-- `assets/fraud-detection-streamlit-preview.webp`: static screenshot captured from the locally run Streamlit app; it shows form defaults, not a prediction result.
-- `assets/education-highskill-age-distribution.webp`: cropped, authentic descriptive chart excerpt from the linked public project report; it is not a newly computed result.
+- `index.html`: page content, research summary, project evidence, canonical/SEO metadata, Open Graph/Twitter card metadata, Person schema, and favicon links.
+- `styles.css`: responsive layout, theme-aware light/dark logo variants, theme tokens, focus states, and reduced-motion rules.
+- `script.js`: system-aware theme persistence and accessible mobile navigation; without JavaScript, section navigation and the system-matched logo remain visible.
+- `assets/logo-atabak-full.png`: transparent, high-resolution copy of the supplied horizontal mark, optimized from its already-transparent RGBA source.
+- `assets/logo-atabak-full-dark.png`: same geometry and typography with the navy/blue palette lightened for contrast on dark surfaces; `*-small.webp` variants are used in the header.
+- `assets/logo-atabak-mark.png`: transparent square crop of the supplied leaf/tree mark; a contrast variant is used in the footer.
+- `favicon.svg`, `favicon.ico`, `assets/favicon-32.png`, and `apple-touch-icon.png`: derived from the original-colour mark on a pale icon tile. The SVG embeds the raster icon; no unfaithful full-wordmark vector was fabricated.
+- `assets/social-preview.png`: 1200×630 navy social preview with the official leaf mark replacing the former abstract circle motif.
+- `assets/fraud-detection-streamlit-preview.webp`: visible static screenshot captured from the locally run Streamlit app; it shows form defaults, not a prediction result.
+- `assets/education-highskill-age-distribution.webp`: authentic archival descriptive chart excerpt from the linked public project report; it is not a newly computed result.
 
 No analytics, visitor identifiers, or external font assets are loaded.
