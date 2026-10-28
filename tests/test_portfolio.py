@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import struct
 import unittest
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -181,6 +182,71 @@ class PortfolioAcceptanceTests(unittest.TestCase):
         sitemap = (ROOT / "sitemap.xml").read_text(encoding="utf-8")
         self.assertIn("https://atabak-nikouseresht.github.io/projects/fraud-risk/", sitemap)
         ET.fromstring(sitemap)
+
+    def test_favicon_assets_are_sized_and_declared_on_every_page(self) -> None:
+        expected_icons = {
+            "/favicon-192x192.png": ("image/png", "192x192"),
+            "/favicon-48x48.png": ("image/png", "48x48"),
+            "/favicon.ico": ("image/x-icon", "any"),
+            "/assets/favicon-32.png": ("image/png", "32x32"),
+            "/favicon.svg": ("image/svg+xml", ""),
+        }
+        for page_name, page in self.pages.items():
+            self.assertIsNotNone(page, f"Missing page {page_name}")
+            for href, (mime_type, size) in expected_icons.items():
+                matches = [
+                    link for link in page.links
+                    if "icon" in link.get("rel", "").split() and link.get("href") == href
+                ]
+                self.assertEqual(len(matches), 1, f"{page_name}: expected one icon declaration for {href}")
+                self.assertEqual(matches[0].get("type"), mime_type, f"{page_name}: wrong MIME type for {href}")
+                if size:
+                    self.assertEqual(matches[0].get("sizes"), size, f"{page_name}: wrong dimensions for {href}")
+
+            touch_icons = [
+                link for link in page.links
+                if link.get("rel") == "apple-touch-icon" and link.get("href") == "/apple-touch-icon.png"
+            ]
+            self.assertEqual(len(touch_icons), 1, f"{page_name}: missing Apple touch icon")
+            self.assertEqual(touch_icons[0].get("sizes"), "180x180")
+
+        png_signature = bytes.fromhex("89504e470d0a1a0a")
+        png_sizes = {
+            "assets/favicon-32.png": (32, 32),
+            "favicon-48x48.png": (48, 48),
+            "favicon-192x192.png": (192, 192),
+            "apple-touch-icon.png": (180, 180),
+        }
+        for path, expected_size in png_sizes.items():
+            image = (ROOT / path).read_bytes()
+            self.assertTrue(image.startswith(png_signature), f"{path}: invalid PNG signature")
+            self.assertEqual(image[12:16], b"IHDR", f"{path}: missing IHDR")
+            self.assertEqual(struct.unpack(">II", image[16:24]), expected_size, f"{path}: wrong dimensions")
+            self.assertEqual(image[25], 6, f"{path}: expected an RGBA PNG with alpha")
+
+        ico = (ROOT / "favicon.ico").read_bytes()
+        reserved, image_type, count = struct.unpack_from("<HHH", ico, 0)
+        self.assertEqual((reserved, image_type, count), (0, 1, 3), "favicon.ico must contain three icon frames")
+        ico_sizes: set[tuple[int, int]] = set()
+        for index in range(count):
+            width, height, _, _, _, _, byte_count, offset = struct.unpack_from("<BBBBHHII", ico, 6 + 16 * index)
+            frame = ico[offset:offset + byte_count]
+            self.assertEqual(len(frame), byte_count, "favicon.ico frame is truncated")
+            self.assertTrue(frame.startswith(png_signature), "favicon.ico frames should be PNG encoded")
+            ico_sizes.add((width or 256, height or 256))
+        self.assertEqual(ico_sizes, {(16, 16), (32, 32), (48, 48)})
+
+        svg = ET.parse(ROOT / "favicon.svg").getroot()
+        embedded = [node for node in svg.iter() if node.tag.endswith("image")]
+        self.assertEqual(len(embedded), 1)
+        self.assertTrue(embedded[0].attrib.get("href", "").startswith("data:image/png;base64,"))
+
+        robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
+        self.assertRegex(robots, r"(?im)^User-agent:\s*\*\s*$")
+        self.assertRegex(robots, r"(?im)^Allow:\s*/\s*$")
+        for meta in self.pages["index.html"].meta:
+            if meta.get("name", "").lower() == "robots":
+                self.assertNotIn("noindex", meta.get("content", "").lower())
 
     def test_case_tables_override_homepage_column_sizing_and_explain_mobile_scroll(self) -> None:
         source = (ROOT / CASE_PATH).read_text(encoding="utf-8")
