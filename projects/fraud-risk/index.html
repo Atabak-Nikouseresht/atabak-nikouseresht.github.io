@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A temporal comparison of Logistic Regression and XGBoost under fixed review budgets, including evaluation protocol, results and limitations.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#061321" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#e8edf2" media="(prefers-color-scheme: light)">
+  <script>
+    (() => {
+      const root = document.documentElement;
+      let saved = null;
+      try { saved = localStorage.getItem('atabak-theme'); } catch { /* System preference remains available. */ }
+      const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)').matches ?? false;
+      const theme = saved === 'light' || saved === 'dark' ? saved : (prefersLight ? 'light' : 'dark');
+      root.dataset.theme = theme;
+      root.classList.replace('no-js', 'js');
+      const activeColor = theme === 'light' ? '#e8edf2' : '#061321';
+      document.querySelectorAll('meta[name="theme-color"]').forEach(meta => { meta.media = meta.content === activeColor ? 'all' : 'not all'; });
+    })();
+  </script>
+  <title>IEEE-CIS Fraud Detection Case Study | Atabak Nikouseresht</title>
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Atabak Nikouseresht — Financial Risk &amp; Data Analytics">
+  <meta property="og:title" content="IEEE-CIS Fraud Detection Case Study | Atabak Nikouseresht">
+  <meta property="og:description" content="A chronological, transaction-only comparison of Logistic Regression and XGBoost under fixed review-capacity scenarios.">
+  <meta property="og:url" content="https://atabak-nikouseresht.github.io/projects/fraud-risk/">
+  <meta property="og:image" content="https://atabak-nikouseresht.github.io/assets/social-preview.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Atabak Nikouseresht — Financial Risk &amp; Data Analytics">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IEEE-CIS Fraud Detection Case Study | Atabak Nikouseresht">
+  <meta name="twitter:description" content="Temporal model evaluation, fixed review-budget results and methodological limits.">
+  <meta name="twitter:image" content="https://atabak-nikouseresht.github.io/assets/social-preview.png">
+  <meta name="twitter:image:alt" content="Atabak Nikouseresht — Financial Risk &amp; Data Analytics">
+  <link rel="canonical" href="https://atabak-nikouseresht.github.io/projects/fraud-risk/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any">
+  <link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IEEE-CIS Fraud Detection: Model Ranking Under Limited Review Capacity",
+    "description": "A retrospective temporal comparison of Logistic Regression and XGBoost on transaction-only IEEE-CIS data, with fixed review-budget scenarios and explicit limitations.",
+    "author": {"@type": "Person", "name": "Atabak Nikouseresht", "url": "https://atabak-nikouseresht.github.io/"},
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://atabak-nikouseresht.github.io/projects/fraud-risk/"},
+    "isPartOf": {"@type": "WebSite", "name": "Atabak Nikouseresht — Financial Risk & Data Analytics", "url": "https://atabak-nikouseresht.github.io/"}
+  }
+  </script>
+  <script defer src="/script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="container nav-wrap">
+    <a class="brand" href="/#top" aria-label="Atabak Nikouseresht — home"><img class="brand-logo-light" src="/assets/logo-atabak-full-small.webp" alt="" aria-hidden="true" width="600" height="159"><img class="brand-logo-dark" src="/assets/logo-atabak-full-dark-small.webp" alt="" aria-hidden="true" width="600" height="159"></a>
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="/#work">Projects</a><a href="/#research">Research</a><a href="/#experience">Experience</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
+    <div class="nav-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle theme"><span aria-hidden="true">◐</span></button><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false"><span></span><span></span></button></div>
+  </div></header>
+  <main id="main" class="case-study-page">
+    <section class="case-hero container" id="case-summary" aria-labelledby="case-title">
+      <a class="case-back" href="/#work">← All projects</a>
+      <div class="eyebrow">FLAGSHIP CASE STUDY · RETROSPECTIVE MODEL EVALUATION</div>
+      <h1 id="case-title">IEEE-CIS Fraud Detection</h1>
+      <p class="case-question">Can a model improve the ranking of rare fraudulent transactions when investigation capacity is limited?</p>
+      <p class="case-intro">I compared a fixed Logistic Regression baseline with XGBoost on transaction-only data, using a chronological model-training, calibration and final-evaluation design. The study demonstrates evidence-based model evaluation—not a production fraud service.</p>
+      <div class="case-actions"><a class="button button-primary" href="#results">Explore results <span aria-hidden="true">↓</span></a><a class="button button-secondary" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost" target="_blank" rel="noopener noreferrer">Open repository <span aria-hidden="true">↗</span></a></div>
+    </section>
+
+    <nav class="case-toc container" aria-label="Case study sections"><a href="#results">Model results</a><a href="#review-capacity">Review capacity</a><a href="#evaluation-design">Evaluation design</a><a href="#limitations">Limitations</a><a href="#evidence">Evidence &amp; reproduction</a></nav>
+
+    <section class="section section-work" id="results" aria-labelledby="results-title"><div class="container">
+      <div class="section-heading"><div class="eyebrow">01 / MODEL RESULTS</div><h2 id="results-title">Ranking quality<br><em>on a later cohort.</em></h2><p>All figures below come from the current full-data temporal evaluation artifact. The headline values summarize one final holdout, not deployed performance. Evaluation prevalence was 3.440918%, which contextualizes average precision under class imbalance.</p></div>
+      <div class="case-metric-grid" role="group" aria-label="Selected XGBoost results on the final temporal evaluation partition">
+        <article class="case-metric-card"><h3>ROC-AUC</h3><strong>0.887546</strong><p>Ranking discrimination · final temporal holdout</p></article>
+        <article class="case-metric-card"><h3>Average precision</h3><strong>0.480197</strong><p>Step-weighted precision–recall summary · same holdout</p></article>
+        <article class="case-metric-card"><h3>Top-1% review precision</h3><strong>0.870558</strong><p>1,182 highest-scored rows · retrospective batch scenario</p></article>
+      </div>
+
+      <div class="case-content-grid">
+        <section class="case-panel" aria-labelledby="ranking-table-title">
+          <h3 id="ranking-table-title">Ranking and threshold metrics</h3>
+          <p class="case-table-hint" id="ranking-table-hint">On narrow screens, scroll horizontally to view all columns.</p><div class="case-table-scroll" role="region" aria-label="Model ranking and threshold metrics" aria-describedby="ranking-table-hint" tabindex="0"><table class="comparison-table case-table"><caption>Final temporal evaluation partition · six decimal places</caption><thead><tr><th scope="col">Model</th><th scope="col">ROC-AUC</th><th scope="col">Average precision</th><th scope="col">Precision at 0.5</th><th scope="col">Recall at 0.5</th></tr></thead><tbody><tr><th scope="row">Logistic Regression</th><td>0.805437</td><td>0.173031</td><td>0.325390</td><td>0.262057</td></tr><tr><th scope="row">XGBoost</th><td>0.887546</td><td>0.480197</td><td>0.770548</td><td>0.332185</td></tr></tbody></table></div>
+          <p class="case-note">Precision and recall in this table use a fixed score threshold of 0.5. Average precision is the step-weighted precision–recall summary; it is not interchangeable with every trapezoidal PR-area calculation.</p>
+        </section>
+        <section class="case-panel" aria-labelledby="probability-title">
+          <h3 id="probability-title">Probability-quality measures</h3>
+          <p class="case-table-hint" id="probability-table-hint">On narrow screens, scroll horizontally to view all columns.</p><div class="case-table-scroll" role="region" aria-label="Probability-quality metrics table" aria-describedby="probability-table-hint" tabindex="0"><table class="comparison-table case-table"><caption>Final temporal evaluation partition · six decimals; calibration-decision ECE came from the separate calibration partition</caption><thead><tr><th scope="col">Model</th><th scope="col">Brier</th><th scope="col">Log loss</th><th scope="col">Quantile-bin ECE (final evaluation)</th></tr></thead><tbody><tr><th scope="row">Logistic Regression</th><td>0.040453</td><td>0.497000</td><td>0.035347</td></tr><tr><th scope="row">XGBoost</th><td>0.023365</td><td>0.097501</td><td>0.004580</td></tr></tbody></table></div>
+          <p class="case-note">Final-evaluation XGBoost ECE is 0.004580; the separate calibration-partition ECE was 0.005008 and informed the predeclared 0.02 trigger. Brier mixes reliability, resolution and outcome uncertainty. Neither aggregate ECE establishes adequate high-risk calibration; estimates depend on binning and cohort composition.</p>
+        </section>
+      </div>
+    </div></section>
+
+    <section class="section" id="review-capacity" aria-labelledby="capacity-title"><div class="container">
+      <div class="section-heading"><div class="eyebrow">02 / INVESTIGATION CAPACITY</div><h2 id="capacity-title">Precision at fixed<br><em>review budgets.</em></h2><p>Rows are ordered by model score within the final evaluation cohort. Each budget is a descriptive batch scenario, with the same number of alerts compared across models.</p></div>
+      <figure class="review-budget-figure case-review-figure" aria-labelledby="case-review-caption">
+        <div class="review-budget-chart" aria-hidden="true">
+          <section class="review-budget-group"><h3>0.5% review budget <span>591 alerts</span></h3><div class="review-budget-row"><span>Logistic Regression</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill logistic" style="width:0.7%"></span></span><strong>0.7%</strong></div><div class="review-budget-row"><span>XGBoost</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill xgboost" style="width:92.7%"></span></span><strong>92.7%</strong></div></section>
+          <section class="review-budget-group"><h3>1% review budget <span>1,182 alerts</span></h3><div class="review-budget-row"><span>Logistic Regression</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill logistic" style="width:2.9%"></span></span><strong>2.9%</strong></div><div class="review-budget-row"><span>XGBoost</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill xgboost" style="width:87.1%"></span></span><strong>87.1%</strong></div></section>
+          <section class="review-budget-group"><h3>2% review budget <span>2,363 alerts</span></h3><div class="review-budget-row"><span>Logistic Regression</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill logistic" style="width:30.6%"></span></span><strong>30.6%</strong></div><div class="review-budget-row"><span>XGBoost</span><span class="review-budget-track" aria-hidden="true"><span class="review-budget-fill xgboost" style="width:65.6%"></span></span><strong>65.6%</strong></div></section>
+        </div>
+        <figcaption id="case-review-caption">Precision among the highest-scored rows; bars share a 0–100% scale. Values are rounded to one decimal. Labels identify the models independently of color.</figcaption>
+      </figure>
+      <p class="case-table-hint case-table-hint-wide" id="budget-table-hint">On narrow screens, scroll horizontally to view all columns.</p><div class="case-table-scroll" role="region" aria-label="Fixed review-budget results" aria-describedby="budget-table-hint" tabindex="0"><table class="comparison-table case-table case-table-wide"><caption>Final temporal evaluation · all rows are descriptive; score cutoffs are not a future operating policy</caption><thead><tr><th scope="col">Budget</th><th scope="col">Model</th><th scope="col">Alerts</th><th scope="col">Frauds captured</th><th scope="col">Precision</th><th scope="col">Recall</th></tr></thead><tbody>
+        <tr><th scope="row">0.5%</th><td>Logistic Regression</td><td>591</td><td>4</td><td>0.006768</td><td>0.000984</td></tr><tr><th scope="row">0.5%</th><td>XGBoost</td><td>591</td><td>548</td><td>0.927242</td><td>0.134843</td></tr>
+        <tr><th scope="row">1.0%</th><td>Logistic Regression</td><td>1,182</td><td>34</td><td>0.028765</td><td>0.008366</td></tr><tr><th scope="row">1.0%</th><td>XGBoost</td><td>1,182</td><td>1,029</td><td>0.870558</td><td>0.253199</td></tr>
+        <tr><th scope="row">2.0%</th><td>Logistic Regression</td><td>2,363</td><td>724</td><td>0.306390</td><td>0.178150</td></tr><tr><th scope="row">2.0%</th><td>XGBoost</td><td>2,363</td><td>1,551</td><td>0.656369</td><td>0.381644</td></tr>
+      </tbody></table></div>
+      <p class="case-note">At the 0.5% linear-model budget, a score cutoff of 1.0 leaves many tied rows; the table reflects deterministic row ordering, not a stable investigation policy. Ceiling-rounded batch budgets and score cutoffs do not guarantee a future alert rate. No staffing, monetary-loss or savings assumptions are made.</p>
+    </div></section>
+
+    <section class="section section-alt" id="evaluation-design" aria-labelledby="design-title"><div class="container">
+      <div class="section-heading"><div class="eyebrow">03 / METHOD</div><h2 id="design-title">Chronology before<br><em>model selection.</em></h2><p>The primary comparison separates model fitting, calibration assessment and final evaluation in transaction time, rather than randomly mixing observations across the time axis. This avoids training on later records while evaluating earlier ones and asks how ranking looks on a later cohort; it does not establish future operational performance.</p></div>
+      <div class="case-content-grid">
+        <section class="case-panel" aria-labelledby="data-title"><h3 id="data-title">Dataset and scope</h3><ul class="case-list"><li>Full labeled IEEE-CIS transaction table: <strong>590,540 rows</strong>, <strong>392 predictors</strong> and <strong>20,663 frauds</strong> (3.499001% prevalence).</li><li>Target: <code>isFraud</code>; row identifier <code>TransactionID</code> excluded from predictors.</li><li>Identity tables were not merged. The unlabeled competition test table (506,691 rows) was checked for input-contract and provenance only; it was not used as a scored validation set.</li><li>Transforms and estimators were fitted on model-training rows only. No sampling was used.</li></ul></section>
+        <section class="case-panel" aria-labelledby="models-title"><h3 id="models-title">Model comparison</h3><ul class="case-list"><li>Unweighted Logistic Regression with training-only scaling, used as a fixed baseline.</li><li>XGBoost: 500 estimators, depth 6, learning rate 0.05, row/column subsampling 0.8, histogram tree method, seed 42 and four CPU threads.</li><li>The same compact ordinal feature representation constrains the linear model: nominal codes have arbitrary geometry, and it was not an optimized one-hot baseline.</li><li>No broad hyperparameter search, identity enrichment or alternative-score selection was used.</li></ul></section>
+      </div>
+      <p class="case-table-hint" id="partition-table-hint">On narrow screens, scroll horizontally to view all columns.</p><div class="case-table-scroll" role="region" aria-label="Chronological partition sizes and fraud counts" aria-describedby="partition-table-hint" tabindex="0"><table class="comparison-table case-table"><caption>Strict chronological partitions · timestamp ties retained within a partition</caption><thead><tr><th scope="col">Partition</th><th scope="col">Rows</th><th scope="col">Frauds</th><th scope="col">TransactionDT range</th></tr></thead><tbody><tr><th scope="row">Model training · earliest</th><td>354,324</td><td>11,988</td><td>86,400–8,745,772</td></tr><tr><th scope="row">Calibration · middle</th><td>118,108</td><td>4,611</td><td>8,745,798–12,192,842</td></tr><tr><th scope="row">Final evaluation · latest</th><td>118,108</td><td>4,064</td><td>12,192,900–15,811,131</td></tr></tbody></table></div>
+      <p class="case-note">The calibration-partition XGBoost ECE was 0.005008; the predeclared trigger was 0.02, so no sigmoid calibrator was fitted. The separate final-evaluation ECE (0.004580) is shown in the probability-quality table. This exploratory trigger is not an industry standard or proof of calibration adequacy. Full-file label validation took place before final metrics, so the run was not a physically sealed-label holdout.</p>
+    </div></section>
+
+    <section class="section" id="limitations" aria-labelledby="limitations-title"><div class="container columns case-limits-grid"><div><div class="eyebrow">04 / INTERPRETATION</div><h2 id="limitations-title">Evidence with<br><em>boundaries.</em></h2></div><div class="case-panel case-limit-panel"><ul class="case-list">
+      <li><strong>Retrospective only.</strong> One later temporal cohort; no online intervention, independently validated deployment, staffing policy, monetary savings or regulatory suitability is established.</li>
+      <li><strong>Feature timing and label maturation are uncertain.</strong> Anonymized fields lack a verified point-in-time availability contract, so no blanket leakage-free claim is made.</li>
+      <li><strong>Not entity-disjoint.</strong> Repeated card-field combinations are unverified attribute proxies, not customer or account identifiers; unseen-entity generalization was not tested.</li>
+      <li><strong>Limited robustness evidence.</strong> No bootstrap confidence interval or second empirical split was run. The final metrics describe one cohort and may not transfer under temporal drift.</li>
+      <li><strong>Model representation matters.</strong> Logistic Regression is a deliberately simple ordinal-code baseline, not an optimized categorical benchmark; its weak top-budget precision is reported as observed.</li>
+      <li><strong>Evidence provenance has limits.</strong> Recorded file hashes identify bytes but do not independently certify data authenticity or authorization. Competition access and publication rules must be checked by the data user.</li>
+    </ul><p class="case-note">This is a retrospective research benchmark, not a production-ready fraud system. Batch precision is not a causal impact estimate and does not establish financial benefit.</p></div></div></section>
+
+    <section class="section section-alt" id="evidence" aria-labelledby="evidence-title"><div class="container">
+      <div class="section-heading"><div class="eyebrow">05 / REPRODUCIBILITY</div><h2 id="evidence-title">Inspect the<br><em>source evidence.</em></h2><p>The published artifact links to aggregate outputs and protocol documentation. Restricted source CSVs, raw rows, identifiers, per-row predictions and trained models are not included on this site.</p></div>
+      <div class="case-source-grid">
+        <a class="case-source-card" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost" target="_blank" rel="noopener noreferrer"><strong>Repository</strong><span>Code, environment lock and project guide ↗</span></a>
+        <a class="case-source-card" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost/blob/main/results/current_evaluation.md" target="_blank" rel="noopener noreferrer"><strong>Current evaluation</strong><span>Human-readable results and interpretation ↗</span></a>
+        <a class="case-source-card" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost/blob/main/results/current_evaluation.json" target="_blank" rel="noopener noreferrer"><strong>Authoritative JSON</strong><span>Full-precision metrics, hashes, splits and provenance ↗</span></a>
+        <a class="case-source-card" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost/blob/main/docs/phase2-evaluation.md" target="_blank" rel="noopener noreferrer"><strong>Evaluation protocol</strong><span>Predeclared design, evidence boundary and limitations ↗</span></a>
+        <a class="case-source-card" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost/blob/main/evaluation.py" target="_blank" rel="noopener noreferrer"><strong>Execution entry point</strong><span>Data checks, model evaluation and artifact publication ↗</span></a>
+      </div>
+      <p class="case-note">The current evaluation records execution revision <a href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost/commit/7148defa53109f6e47cc6993d6fbc4bd55d9c3ef" target="_blank" rel="noopener noreferrer"><code>7148defa53109f6e47cc6993d6fbc4bd55d9c3ef</code> ↗</a>. The JSON contains source and input hashes; they identify bytes but do not certify data authorization or official authenticity.</p>
+      <div class="case-actions case-final-actions"><a class="button button-primary" href="/#work">Back to selected projects <span aria-hidden="true">↑</span></a><a class="button button-secondary" href="/assets/Atabak_Nikouseresht_Professional_Resume.pdf" target="_blank" rel="noopener noreferrer">View CV <span aria-hidden="true">↗</span></a></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><div class="footer-brand"><img class="footer-mark footer-mark-light" src="/assets/logo-atabak-mark-small.webp" alt="" aria-hidden="true" width="26" height="26"><img class="footer-mark footer-mark-dark" src="/assets/logo-atabak-mark-dark-small.webp" alt="" aria-hidden="true" width="26" height="26"><span>© <span id="year">2026</span> Atabak Nikouseresht · Bologna, Italy</span></div><a href="/#top">Portfolio home ↑</a></div></footer>
+</body>
+</html>
