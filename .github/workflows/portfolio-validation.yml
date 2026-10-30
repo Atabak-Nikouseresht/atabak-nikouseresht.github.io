@@ -12,12 +12,26 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Run portfolio checks
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.22.2
+          cache: npm
+      - name: Install pinned development dependencies
+        run: npm ci
+      - name: Install Playwright Chromium and system dependencies
+        run: npx playwright install --with-deps chromium
+      - name: Validate HTML pages
+        run: npm run test:html
+      - name: Run Python portfolio checks
         run: python3 -B -m unittest discover -s tests -v
       - name: Check JavaScript syntax
         run: node --check script.js
+      - name: Run browser regression and accessibility checks
+        run: npm run test:e2e
