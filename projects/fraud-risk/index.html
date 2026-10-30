@@ -59,7 +59,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><div class="container nav-wrap">
-    <a class="brand" href="/#top" aria-label="Atabak Nikouseresht — home"><img class="brand-logo-light" src="/assets/logo-atabak-full-small.webp" alt="" aria-hidden="true" width="600" height="159"><img class="brand-logo-dark" src="/assets/logo-atabak-full-dark-small.webp" alt="" aria-hidden="true" width="600" height="159"></a>
+    <a class="brand" href="/#top" aria-label="Atabak Nikouseresht — home"><img class="brand-logo-light" src="/assets/logo-atabak-full-small.webp" alt="" aria-hidden="true" width="600" height="152"><img class="brand-logo-dark" src="/assets/logo-atabak-full-dark-small.webp" alt="" aria-hidden="true" width="600" height="152"></a>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="/#work">Projects</a><a href="/#research">Research</a><a href="/#experience">Experience</a><a href="/#about">About</a><a href="/#contact">Contact</a></nav>
     <div class="nav-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" title="Toggle theme"><span aria-hidden="true">◐</span></button><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false"><span></span><span></span></button></div>
   </div></header>
@@ -68,8 +68,14 @@
       <a class="case-back" href="/#work">← All projects</a>
       <div class="eyebrow">FLAGSHIP CASE STUDY · RETROSPECTIVE MODEL EVALUATION</div>
       <h1 id="case-title">IEEE-CIS Fraud Detection</h1>
-      <p class="case-question">Can a model improve the ranking of rare fraudulent transactions when investigation capacity is limited?</p>
-      <p class="case-intro">I compared a fixed Logistic Regression baseline with XGBoost on transaction-only data, using a chronological model-training, calibration and final-evaluation design. The study demonstrates evidence-based model evaluation—not a production fraud service.</p>
+      <p class="case-question">Can a model rank more fraud within a fixed-size review queue?</p>
+      <p class="case-intro">A chronological, transaction-only comparison tests whether the score order changes the yield of a fixed-capacity review batch.</p>
+      <div class="case-executive-summary" role="group" aria-label="Executive summary">
+        <div><strong>Problem</strong><p>Prioritize rare fraudulent transactions when investigation capacity is fixed.</p></div>
+        <div><strong>Key result</strong><p>At 1,182 alerts on the final temporal holdout, XGBoost precision was 0.870558 versus 0.028765 for Logistic Regression.</p></div>
+        <div><strong>Why it matters</strong><p>For the same batch size, ranking changed how concentrated the review queue was in this retrospective cohort.</p></div>
+      </div>
+      <p class="case-summary-note">These are offline holdout results, not a validated operating policy or production performance.</p>
       <div class="case-actions"><a class="button button-primary" href="#results">Explore results <span aria-hidden="true">↓</span></a><a class="button button-secondary" href="https://github.com/Atabak-Nikouseresht/ieee-fraud-detection-xgboost" target="_blank" rel="noopener noreferrer">Open repository <span aria-hidden="true">↗</span></a></div>
     </section>
 

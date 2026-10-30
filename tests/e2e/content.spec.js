@@ -64,16 +64,15 @@ test('Portfolio Theory reproducibility is described as evidence status, not as a
   expect(text).toMatch(/not (?:been )?independently reproduced/i);
 });
 
-test('Research describes the verified topic and clearly labels its unfinished stage', async ({ page }) => {
+test('Research names the thesis topic, current evidence and ongoing design stage', async ({ page }) => {
   await page.goto('/');
   const text = normalize(await page.locator('#research').innerText());
   expect(text).toMatch(/digitalization risk in (European )?banking/i);
   expect(text).toMatch(/tokenization|digital assets/i);
   expect(text).toMatch(/public bank disclosures and documented bank-level digitalization events/i);
-  expect(text).toMatch(/provisional question/i);
-  expect(text).toMatch(/formal question and estimand are not settled/i);
-  expect(text).toMatch(/empirical design remain under development/i);
-  expect(text).toMatch(/no (empirical )?findings|no causal/i);
+  expect(text).toMatch(/current stage/i);
+  expect(text).toMatch(/defining the sample, outcomes and empirical design/i);
+  expect(text).toMatch(/no empirical results are reported yet/i);
 });
 
 test('ongoing internship wording describes scope without claiming delivered screening outcomes', async ({ page }) => {

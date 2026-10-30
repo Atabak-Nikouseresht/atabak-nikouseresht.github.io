@@ -300,6 +300,14 @@ class PortfolioAcceptanceTests(unittest.TestCase):
                 if src and not src.startswith(("https://", "http://", "data:")):
                     target, _ = resolve_local_path(page_path, src)
                     self.assertTrue(target.is_file(), f"{page_name}: missing image {src}")
+                srcset = image.get("srcset", "").strip()
+                if srcset:
+                    self.assertTrue(image.get("sizes"), f"{page_name}: responsive image missing sizes")
+                    for candidate in srcset.split(","):
+                        candidate_path = candidate.strip().split()[0]
+                        self.assertFalse(candidate_path.startswith(("https://", "http://", "data:")))
+                        target, _ = resolve_local_path(page_path, candidate_path)
+                        self.assertTrue(target.is_file(), f"{page_name}: missing responsive image {candidate_path}")
 
     def test_structured_data_is_valid_json_for_each_page(self) -> None:
         expected = {"index.html": "Person", CASE_PATH: "TechArticle"}

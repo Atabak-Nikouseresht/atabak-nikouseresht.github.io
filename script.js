@@ -65,6 +65,21 @@
       mobileToggle?.focus();
     }
   });
+  const revealTargets = [...document.querySelectorAll('[data-reveal]')];
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  if (revealTargets.length && 'IntersectionObserver' in window && !reduceMotion?.matches) {
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    revealTargets.forEach(target => {
+      target.classList.add('reveal-pending');
+      revealObserver.observe(target);
+    });
+  }
   if (year) year.textContent = String(new Date().getFullYear());
   root.classList.remove('no-js');
   root.classList.add('js');
