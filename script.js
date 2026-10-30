@@ -1,8 +1,6 @@
 (() => {
   'use strict';
   const root = document.documentElement;
-  root.classList.remove('no-js');
-  root.classList.add('js');
   const toggle = document.getElementById('theme-toggle');
   const mobileToggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('site-nav');
@@ -33,6 +31,13 @@
     mobileToggle?.setAttribute('aria-expanded', 'false');
     mobileToggle?.setAttribute('aria-label', 'Open navigation');
   };
+  const focusTarget = target => {
+    if (!target.hasAttribute('tabindex')) {
+      target.setAttribute('tabindex', '-1');
+      target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+    }
+    target.focus({ preventScroll: true });
+  };
   mobileToggle?.addEventListener('click', () => {
     const open = nav?.classList.toggle('is-open') ?? false;
     mobileToggle.setAttribute('aria-expanded', String(open));
@@ -44,20 +49,14 @@
     const href = link.getAttribute('href') || '';
     if (!href.startsWith('#')) return;
     const target = document.getElementById(href.slice(1));
-    if (target) {
-      target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: true });
-    }
+    if (target) focusTarget(target);
   }));
   const focusHashTarget = hash => {
     if (!hash || hash === '#') return;
     let id = '';
     try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
     const target = document.getElementById(id);
-    if (target) {
-      target.setAttribute('tabindex', '-1');
-      target.focus({ preventScroll: true });
-    }
+    if (target) focusTarget(target);
   };
   if (window.location.hash) requestAnimationFrame(() => focusHashTarget(window.location.hash));
   document.addEventListener('keydown', event => {
@@ -67,4 +66,6 @@
     }
   });
   if (year) year.textContent = String(new Date().getFullYear());
+  root.classList.remove('no-js');
+  root.classList.add('js');
 })();

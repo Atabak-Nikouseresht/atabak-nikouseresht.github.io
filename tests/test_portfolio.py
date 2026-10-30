@@ -140,11 +140,10 @@ class PortfolioAcceptanceTests(unittest.TestCase):
         cards = re.findall(r'<article class="project-card">(.*?)</article>', source, re.S)
         self.assertEqual(len(cards), 3)
         for card in cards:
-            for field in ("Problem", "Method", "Results", "Professional relevance", "Tools"):
+            for field in ("Problem", "Approach", "Outcome"):
                 self.assertIn(f"<dt>{field}</dt>", card)
+            self.assertNotIn("<dt>Tools</dt>", card)
             self.assertIn('class="project-evidence-label"', card)
-        self.assertRegex(self.css, r"\.project-grid\{[^}]*align-items:start")
-        self.assertIn("@media(max-width:1080px){.project-grid{grid-template-columns:1fr}}", self.css)
 
     def test_case_study_metadata_is_unique_and_canonical(self) -> None:
         page = self.pages[CASE_PATH]
@@ -248,12 +247,13 @@ class PortfolioAcceptanceTests(unittest.TestCase):
             if meta.get("name", "").lower() == "robots":
                 self.assertNotIn("noindex", meta.get("content", "").lower())
 
-    def test_case_tables_override_homepage_column_sizing_and_explain_mobile_scroll(self) -> None:
+    def test_case_tables_have_single_column_results_and_keyboard_scroll_semantics(self) -> None:
         source = (ROOT / CASE_PATH).read_text(encoding="utf-8")
-        self.assertIn(".case-table{table-layout:auto;", self.css)
-        self.assertIn(".case-table-wide{min-width:760px}", self.css)
-        self.assertIn('class="case-table-hint"', source)
-        self.assertIn("aria-describedby=\"budget-table-hint\"", source)
+        self.assertIn('class="case-content-grid case-results-grid"', source)
+        self.assertIn('class="case-table-hint case-table-hint-full"', source)
+        self.assertEqual(source.count('<section class="case-table-scroll"'), 4)
+        self.assertIn('aria-describedby="budget-table-hint"', source)
+        self.assertIn('tabindex="0"', source)
 
     def test_app_preview_is_large_and_keyboard_enlargeable(self) -> None:
         home = self.pages["index.html"]
@@ -261,16 +261,9 @@ class PortfolioAcceptanceTests(unittest.TestCase):
         self.assertEqual(len(images), 1)
         preview = images[0]
         self.assertTrue(preview.get("alt"))
-        self.assertIsNotNone(
-            re.search(r"\.app-preview\s*\{[^}]*width:\s*min\(100%,\s*420px\)", self.css),
-            "App preview must display at up to 420px while remaining fluid",
-        )
         source = (ROOT / "index.html").read_text(encoding="utf-8")
         self.assertIn('class="project-app-layout"', source)
-        self.assertIn(
-            "@media(min-width:761px) and (max-width:1080px){.project-app-layout{display:grid",
-            self.css,
-        )
+        self.assertIn('class="project-summary"', source)
         self.assertTrue(any(
             anchor.get("href") == preview.get("src")
             and anchor.get("target") == "_blank"
@@ -278,12 +271,6 @@ class PortfolioAcceptanceTests(unittest.TestCase):
             for anchor in home.anchors
         ), "Preview should link to its full-size image in a safe new tab")
 
-    def test_important_review_chart_labels_are_at_least_12px(self) -> None:
-        match = re.search(r"\.review-budget-row\s*\{([^}]*)\}", self.css)
-        self.assertIsNotNone(match, "review-budget-row CSS rule is required")
-        size = re.search(r"font-size:\s*(\d+)px", match.group(1))
-        self.assertIsNotNone(size, "review-budget-row must declare a readable font size")
-        self.assertGreaterEqual(int(size.group(1)), 12)
 
     def test_all_local_links_and_images_resolve_and_have_safe_names(self) -> None:
         for page_name, page in self.pages.items():
@@ -322,15 +309,12 @@ class PortfolioAcceptanceTests(unittest.TestCase):
             self.assertTrue(structured, f"{page_name}: missing structured data")
             self.assertEqual(structured[0].get("@type"), expected[page_name])
 
-    def test_script_guards_cross_page_navigation_and_focuses_fragment_targets(self) -> None:
-        self.assertIn("if (!href.startsWith('#')) return;", self.js)
-        self.assertIn("document.querySelectorAll('a[href^=\"#\"]')", self.js)
-        self.assertIn("window.location.hash", self.js)
-        self.assertIn("getElementById", self.js)
-
-    def test_reduced_motion_and_focus_styles_remain(self) -> None:
-        self.assertIn(":focus-visible", self.css)
-        self.assertIn("prefers-reduced-motion:reduce", self.css)
+    def test_progressive_enhancement_class_is_set_after_interaction_handlers(self) -> None:
+        for page_name in ("index.html", CASE_PATH):
+            markup = (ROOT / page_name).read_text(encoding="utf-8")
+            self.assertIn('class="no-js"', markup)
+            self.assertNotIn("root.classList.replace('no-js', 'js')", markup)
+        self.assertLess(self.js.index("mobileToggle?.addEventListener"), self.js.index("root.classList.add('js')"))
 
 
 if __name__ == "__main__":

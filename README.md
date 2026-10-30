@@ -18,7 +18,8 @@ GitHub Pages serves this repository from `main` at `https://atabak-nikouseresht.
 - Hermes Crypto Lab demonstrates market-data processing, backtesting, research controls and versioned simulated execution. It is in frozen forward paper validation; its records do not represent live orders.
 - Supporting econometrics projects are collaborative archival studies using ARDL/VAR and OLS/logit methods. Their reports and errata are public, while complete reproduction data/code are not included.
 - The MSc is in progress; no graduation date or transcript is published.
-- The Ongoing Research section states only a high-level thesis focus in banking digitalization and risk, based on public-source evidence. The research design remains in progress; no findings or causal claims are presented.
+- The ongoing MSc thesis focuses on digitalization risk in European banking, including tokenization and digital-asset activity. A provisional question and public evidence base are described, while the formal estimand, sample, outcomes, common windows and empirical design remain open; no findings, causal claims or systemic-risk threshold are presented.
+- Credit-risk and model-validation roles are career interests; the current featured evidence is fraud-risk model evaluation, not a credit-scoring or specialist validation project.
 
 A one-page professional resume is linked from the hero and Contact section. The site also links to the professional LinkedIn profile and public contact email.
 
@@ -26,13 +27,13 @@ A one-page professional resume is linked from the hero and Contact section. The 
 
 - `index.html`: homepage content, research summary, selected project evidence, canonical/SEO metadata, Open Graph/Twitter metadata, Person schema, and favicon links.
 - `projects/fraud-risk/index.html`: detailed IEEE-CIS case study with unique canonical/social metadata, TechArticle schema, accessible result tables and source links.
-- `styles.css`: responsive layouts, theme-aware light/dark logo variants, theme tokens, focus states, reduced-motion rules, larger app preview and case-study components.
-- `script.js`: system-aware theme persistence and accessible mobile navigation; cross-page fragment links focus their destination, and no-JavaScript section navigation remains available.
-- `tests/test_portfolio.py` and `.github/workflows/portfolio-validation.yml`: standard-library structural/content checks and JavaScript syntax check on pull requests and pushes to `main`; no restricted model data or third-party test packages are fetched.
+- `styles.css`: readable, single-file design tokens, theme palettes, responsive layouts, focus/reduced-motion states, legible project summaries and horizontally accessible case-study tables.
+- `script.js`: system-aware theme persistence and accessible mobile navigation; the `js` readiness class is applied only after handlers are installed, and section-focus `tabindex` values are removed on blur. Theme initialization stays in the document head so navigation remains usable without the main script.
+- `tests/test_portfolio.py`, `tests/e2e/`, and `.github/workflows/portfolio-validation.yml`: standard-library structural/content checks plus pinned development-only `html-validate` 11.17.0, Playwright 1.64.1 and axe-core 4.14.0. CI runs HTML, JavaScript, browser, responsive, keyboard, theme, table-scroll and axe smoke checks on Chromium with Node 24; no restricted model data are downloaded. The inline chart widths are data-driven, so `.htmlvalidate.json` disables only the validator’s inline-style preference rule.
 - `assets/logo-atabak-full.png`: transparent, high-resolution copy of the supplied horizontal mark, optimized from its already-transparent RGBA source.
 - `assets/logo-atabak-full-dark.png`: same geometry and typography with the navy/blue palette lightened for contrast on dark surfaces; `*-small.webp` variants are used in the header.
 - `assets/logo-atabak-mark.png`: transparent square crop of the supplied leaf/tree mark; a contrast variant is used in the footer.
-- `favicon.svg`, `favicon.ico`, `assets/favicon-32.png`, and `apple-touch-icon.png`: derived from the original-colour mark on a pale icon tile. The SVG embeds the raster icon; no unfaithful full-wordmark vector was fabricated.
+- `favicon.svg`, `favicon.ico`, `favicon-48x48.png`, `favicon-192x192.png`, `assets/favicon-32.png`, and `apple-touch-icon.png`: derived from the existing official mark with its artwork and fallback configuration preserved; the SVG embeds the raster icon, with no fabricated vector paths.
 - `assets/social-preview.png`: 1200×630 navy social preview with the official leaf mark replacing the former abstract circle motif.
 - `assets/fraud-detection-streamlit-preview.webp`: visible static screenshot captured from the locally run Streamlit app; it shows form defaults, not a prediction result.
 - `assets/education-highskill-age-distribution.webp`: authentic archival descriptive chart excerpt from the linked public project report; it is not a newly computed result.
@@ -41,11 +42,15 @@ No analytics, visitor identifiers, or external font assets are loaded.
 
 ## Quality checks
 
-Run the lightweight local checks from the repository root:
+Run the checks from the repository root with Node 24.22.2 and Python available:
 
 ```bash
+npm ci
+npx playwright install chromium
+npm run test:html
 python -B -m unittest discover -s tests -v
 node --check script.js
+npm run test:e2e
 ```
 
-The GitHub Actions validation workflow runs the same checks. The checks verify page metadata, local links/assets, case-study evidence links, sitemap coverage, image alternatives, responsive-preview sizing, navigation labels and key published metrics; they do not attempt to certify research claims beyond the linked source artifacts.
+The browser suite covers both pages at 320, 375, 390, 768, 1024, 1280 and 1440 CSS pixels in light and dark themes. It also exercises JavaScript-disabled and failed-script navigation, keyboard/focus behavior, table scrolling, the CV download, cross-page anchors and axe-core smoke checks. Axe results do not constitute full WCAG certification. CI installs the pinned development lockfile and Chromium; it does not download restricted model data.
